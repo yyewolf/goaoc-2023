@@ -1,14 +1,10 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
-	"runtime"
 )
-
-func init() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
-	var _ [100000000]byte
-}
 
 func main() {
 	answer := doPartOne(input)
@@ -19,118 +15,133 @@ func main() {
 }
 
 func doPartOne(file []byte) int {
-	sum := 0
+	buffer := bufio.NewReader(bytes.NewBuffer(file))
 
-	first := -1
-	last := -1
-	for _, c := range file {
-		I := int(c - '0')
-		if I < 0 || I > 9 {
-			if c == '\n' {
-				sum += first<<3 + first<<1 + last
-				first = -1
-				last = -1
-			}
-		} else {
-			if first == -1 {
+	var sum int
+
+	for l, _, err := buffer.ReadLine(); err == nil; l, _, err = buffer.ReadLine() {
+		first := -1
+		last := -1
+		for _, c := range l {
+			I := int(c - '0')
+			if I >= 0 && I <= 9 {
 				first = I
-				last = I
-			} else {
-				last = I
+				break
 			}
 		}
+		for i := len(l) - 1; i >= 0; i-- {
+			I := int(l[i] - '0')
+			if I >= 0 && I <= 9 {
+				last = I
+				break
+			}
+		}
+		sum += first<<3 + first<<1 + last
 	}
-
-	sum += first<<3 + first<<1 + last
 
 	return sum
 }
 
-func doFirstLast(first, last *int, I int) {
-	if *first == -1 {
-		*first = I
-		*last = I
-	} else {
-		*last = I
+func fastNumbers(b []byte, N *int) {
+	switch b[len(b)-1] {
+	case 'o':
+		switch b[len(b)-2] {
+		case 'w':
+			if b[len(b)-3] == 't' {
+				*N = 2
+			}
+		case 'r':
+			if b[len(b)-3] == 'e' && b[len(b)-4] == 'z' {
+				*N = 0
+			}
+		}
+	case 'e':
+		switch b[len(b)-2] {
+		case 'n':
+			switch b[len(b)-3] {
+			case 'i':
+				if b[len(b)-4] == 'n' {
+					*N = 9
+				}
+			case 'o':
+				*N = 1
+			}
+		case 'v':
+			if b[len(b)-3] == 'i' && b[len(b)-4] == 'f' {
+				*N = 5
+			}
+		case 'e':
+			if b[len(b)-3] == 'r' && b[len(b)-4] == 'h' && b[len(b)-5] == 't' {
+				*N = 3
+			}
+		}
+	case 'n':
+		if b[len(b)-2] == 'e' && b[len(b)-3] == 'v' && b[len(b)-4] == 'e' && b[len(b)-5] == 's' {
+			*N = 7
+		}
+	case 't':
+		if b[len(b)-2] == 'h' && b[len(b)-3] == 'g' && b[len(b)-4] == 'i' && b[len(b)-5] == 'e' {
+			*N = 8
+		}
+	case 'x':
+		if b[len(b)-2] == 'i' && b[len(b)-3] == 's' {
+			*N = 6
+		}
+	case 'r':
+		if b[len(b)-2] == 'u' && b[len(b)-3] == 'o' && b[len(b)-4] == 'f' {
+			*N = 4
+		}
 	}
 }
 
 func doPartTwo(file []byte) int {
-	sum := 0
+	buffer := bufio.NewReader(bytes.NewBuffer(file))
 
-	first := -1
-	last := -1
-	var rotatingBuffer = make([]byte, 6)
-	for i, c := range file {
-		if i >= 6 {
-			rotatingBuffer = file[i-6 : i]
-		} else {
-			rotatingBuffer = append(rotatingBuffer, c)
-		}
+	var sum int
 
-		switch rotatingBuffer[len(rotatingBuffer)-1] {
-		case 'o':
-			switch rotatingBuffer[len(rotatingBuffer)-2] {
-			case 'w':
-				if rotatingBuffer[len(rotatingBuffer)-3] == 't' {
-					doFirstLast(&first, &last, 2)
-				}
-			case 'r':
-				if rotatingBuffer[len(rotatingBuffer)-3] == 'e' && rotatingBuffer[len(rotatingBuffer)-4] == 'z' {
-					doFirstLast(&first, &last, 0)
-				}
+	for l, _, err := buffer.ReadLine(); err == nil; l, _, err = buffer.ReadLine() {
+
+		first := -1
+		b := make([]byte, 6)
+		for i, c := range l {
+			if i >= 6 {
+				b = l[i-6 : i+1]
+			} else {
+				b = append(b, c)
 			}
-		case 'e':
-			switch rotatingBuffer[len(rotatingBuffer)-2] {
-			case 'n':
-				switch rotatingBuffer[len(rotatingBuffer)-3] {
-				case 'i':
-					if rotatingBuffer[len(rotatingBuffer)-4] == 'n' {
-						doFirstLast(&first, &last, 9)
-					}
-				case 'o':
-					doFirstLast(&first, &last, 1)
-				}
-			case 'v':
-				if rotatingBuffer[len(rotatingBuffer)-3] == 'i' && rotatingBuffer[len(rotatingBuffer)-4] == 'f' {
-					doFirstLast(&first, &last, 5)
-				}
-			case 'e':
-				if rotatingBuffer[len(rotatingBuffer)-3] == 'r' && rotatingBuffer[len(rotatingBuffer)-4] == 'h' && rotatingBuffer[len(rotatingBuffer)-5] == 't' {
-					doFirstLast(&first, &last, 3)
-				}
+			fastNumbers(b, &first)
+
+			if first != -1 {
+				break
 			}
-		case 'n':
-			if rotatingBuffer[len(rotatingBuffer)-2] == 'e' && rotatingBuffer[len(rotatingBuffer)-3] == 'v' && rotatingBuffer[len(rotatingBuffer)-4] == 'e' && rotatingBuffer[len(rotatingBuffer)-5] == 's' {
-				doFirstLast(&first, &last, 7)
-			}
-		case 't':
-			if rotatingBuffer[len(rotatingBuffer)-2] == 'h' && rotatingBuffer[len(rotatingBuffer)-3] == 'g' && rotatingBuffer[len(rotatingBuffer)-4] == 'i' && rotatingBuffer[len(rotatingBuffer)-5] == 'e' {
-				doFirstLast(&first, &last, 8)
-			}
-		case 'x':
-			if rotatingBuffer[len(rotatingBuffer)-2] == 'i' && rotatingBuffer[len(rotatingBuffer)-3] == 's' {
-				doFirstLast(&first, &last, 6)
-			}
-		case 'r':
-			if rotatingBuffer[len(rotatingBuffer)-2] == 'u' && rotatingBuffer[len(rotatingBuffer)-3] == 'o' && rotatingBuffer[len(rotatingBuffer)-4] == 'f' {
-				doFirstLast(&first, &last, 4)
+
+			I := int(c - '0')
+			if I >= 0 && I <= 9 {
+				first = I
+				break
 			}
 		}
-
-		I := int(c - '0')
-		if I < 0 || I > 9 {
-			if c == '\n' {
-				sum += first<<3 + first<<1 + last
-				first = -1
-				last = -1
+		last := -1
+		for i := len(l) - 1; i >= 0; i-- {
+			if i >= 6 {
+				b = l[i-6 : i+1]
+			} else {
+				b = l[:i+1]
 			}
-		} else {
-			doFirstLast(&first, &last, I)
+			fastNumbers(b, &last)
+
+			if last != -1 {
+				break
+			}
+
+			I := int(l[i] - '0')
+			if I >= 0 && I <= 9 {
+				last = I
+				break
+			}
 		}
+		sum += first<<3 + first<<1 + last
 	}
-
-	sum += first<<3 + first<<1 + last
 
 	return sum
 }
