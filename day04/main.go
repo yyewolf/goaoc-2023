@@ -4,7 +4,12 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
+	"runtime"
 )
+
+func init() {
+	runtime.GOMAXPROCS(1)
+}
 
 func main() {
 	answer := doPartOne(input)
@@ -14,8 +19,15 @@ func main() {
 	fmt.Println(answer)
 }
 
+var winningNs [100]bool
+var empty [100]bool
+
+func fastReset() {
+	copy(winningNs[:], empty[:])
+}
+
 func doCard(line []byte) int {
-	var winningNs [10]int
+	fastReset()
 	buf := bufio.NewReader(bytes.NewBuffer(line))
 
 	// read til :
@@ -24,78 +36,55 @@ func doCard(line []byte) int {
 	buf.ReadByte()
 
 	// Read winning numbers
-	var i int
-	for {
-		// read til |
+	for j := 0; j < 10; j++ {
 		b, err := buf.ReadByte()
+		if err != nil || b == '|' {
+			break
+		}
+		b2, err := buf.ReadByte()
 		if err != nil {
 			break
 		}
-
-		if b == '|' {
-			break
+		if b == ' ' {
+			winningNs[uint8(b2-'0')] = true
+		} else {
+			winningNs[uint8(b-'0')*10+uint8(b2-'0')] = true
 		}
-
-		// Read winning numbers
-		if b >= '0' && b <= '9' {
-			winningNs[i] = int(b - '0')
-			for {
-				b, err := buf.ReadByte()
-				if err != nil {
-					break
-				}
-				if b == ' ' {
-					i++
-					break
-				}
-				winningNs[i] = winningNs[i]*10 + int(b-'0')
-			}
-		}
+		buf.ReadByte()
 	}
 
 	// skip space
 	buf.ReadByte()
+	buf.ReadByte()
 
 	var score = 0
 
-	var temp = 0
 	// Read my numbers
-	for {
-		// read til |
+	for j := 0; j < 25; j++ {
 		b, err := buf.ReadByte()
+		if err != nil || b == '|' {
+			break
+		}
+		b2, err := buf.ReadByte()
 		if err != nil {
 			break
 		}
-
-		if b == '\n' {
-			break
+		n := uint8(0)
+		if b == ' ' {
+			n = uint8(b2 - '0')
+		} else {
+			n = uint8(b-'0')*10 + uint8(b2-'0')
 		}
-
-		// Read winning numbers
-		if b >= '0' && b <= '9' {
-			temp = int(b - '0')
-			for {
-				b, err := buf.ReadByte()
-				if b == ' ' || err != nil {
-					for _, n := range winningNs {
-						if n == temp {
-							if score == 0 {
-								score = 1
-							} else {
-								// Multiply by two
-								score <<= 1
-							}
-							temp = 0
-							break
-						}
-					}
-					break
-				}
-				temp = temp*10 + int(b-'0')
+		if winningNs[n] {
+			if score == 0 {
+				score = 1
+			} else {
+				// Multiply by two
+				score <<= 1
 			}
 		}
+		buf.ReadByte()
 	}
-
 	return score
 }
 
@@ -109,7 +98,6 @@ func doPartOne(input []byte) int {
 		if err != nil {
 			break
 		}
-
 		sum += doCard(line)
 	}
 
@@ -117,7 +105,7 @@ func doPartOne(input []byte) int {
 }
 
 func doCardTwo(line []byte) int {
-	var winningNs [10]int
+	fastReset()
 	buf := bufio.NewReader(bytes.NewBuffer(line))
 
 	// read til :
@@ -126,73 +114,50 @@ func doCardTwo(line []byte) int {
 	buf.ReadByte()
 
 	// Read winning numbers
-	var i int
-	for {
-		// read til |
+	for j := 0; j < 10; j++ {
 		b, err := buf.ReadByte()
+		if err != nil || b == '|' {
+			break
+		}
+		b2, err := buf.ReadByte()
 		if err != nil {
 			break
 		}
-
-		if b == '|' {
-			break
+		if b == ' ' {
+			winningNs[uint8(b2-'0')] = true
+		} else {
+			winningNs[uint8(b-'0')*10+uint8(b2-'0')] = true
 		}
-
-		// Read winning numbers
-		if b >= '0' && b <= '9' {
-			winningNs[i] = int(b - '0')
-			for {
-				b, err := buf.ReadByte()
-				if err != nil {
-					break
-				}
-				if b == ' ' {
-					i++
-					break
-				}
-				winningNs[i] = winningNs[i]*10 + int(b-'0')
-			}
-		}
+		buf.ReadByte()
 	}
 
 	// skip space
 	buf.ReadByte()
+	buf.ReadByte()
 
 	var score = 0
 
-	var temp = 0
 	// Read my numbers
-	for {
-		// read til |
+	for j := 0; j < 25; j++ {
 		b, err := buf.ReadByte()
+		if err != nil || b == '|' {
+			break
+		}
+		b2, err := buf.ReadByte()
 		if err != nil {
 			break
 		}
-
-		if b == '\n' {
-			break
+		n := uint8(0)
+		if b == ' ' {
+			n = uint8(b2 - '0')
+		} else {
+			n = uint8(b-'0')*10 + uint8(b2-'0')
 		}
-
-		// Read winning numbers
-		if b >= '0' && b <= '9' {
-			temp = int(b - '0')
-			for {
-				b, err := buf.ReadByte()
-				if b == ' ' || err != nil {
-					for _, n := range winningNs {
-						if n == temp {
-							score++
-							temp = 0
-							break
-						}
-					}
-					break
-				}
-				temp = temp*10 + int(b-'0')
-			}
+		if winningNs[n] {
+			score++
 		}
+		buf.ReadByte()
 	}
-
 	return score
 }
 
@@ -202,7 +167,7 @@ func doPartTwo(input []byte) int {
 	sum := 0
 
 	var i int
-	var copies [213]int
+	var copies [213]uint32
 	for {
 		line, _, err := buf.ReadLine()
 		if err != nil {
@@ -215,7 +180,7 @@ func doPartTwo(input []byte) int {
 			copies[i+j+1] += 1 + copies[i]
 		}
 
-		sum += score*(1+copies[i]) + 1
+		sum += score*(1+int(copies[i])) + 1
 		i++
 	}
 
