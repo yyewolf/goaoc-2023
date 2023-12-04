@@ -28,52 +28,47 @@ func fastReset() {
 
 func doCard(line []byte) int {
 	fastReset()
-	buf := bufio.NewReader(bytes.NewBuffer(line))
 
+	var pos int
 	// read til :
-	buf.ReadBytes(':')
-	// skip space
-	buf.ReadByte()
+	for i := 0; i < len(line); i++ {
+		if line[i] == ':' {
+			pos = i + 2
+			break
+		}
+	}
 
 	// Read winning numbers
 	for j := 0; j < 10; j++ {
-		b, err := buf.ReadByte()
-		if err != nil || b == '|' {
+		b1 := line[pos+j]
+		if b1 == '|' {
 			break
 		}
-		b2, err := buf.ReadByte()
-		if err != nil {
-			break
-		}
-		if b == ' ' {
+		b2 := line[pos+j+1]
+		if b1 == ' ' {
 			winningNs[uint8(b2-'0')] = true
 		} else {
-			winningNs[uint8(b-'0')*10+uint8(b2-'0')] = true
+			winningNs[uint8(b1-'0')*10+uint8(b2-'0')] = true
 		}
-		buf.ReadByte()
+		pos += 2
 	}
 
-	// skip space
-	buf.ReadByte()
-	buf.ReadByte()
+	pos += 2
 
 	var score = 0
 
 	// Read my numbers
-	for j := 0; j < 25; j++ {
-		b, err := buf.ReadByte()
-		if err != nil || b == '|' {
+	for j := 10; j < 35; j++ {
+		if pos+j > len(line)-1 {
 			break
 		}
-		b2, err := buf.ReadByte()
-		if err != nil {
-			break
-		}
+		b1 := line[pos+j]
+		b2 := line[pos+j+1]
 		n := uint8(0)
-		if b == ' ' {
+		if b1 == ' ' {
 			n = uint8(b2 - '0')
 		} else {
-			n = uint8(b-'0')*10 + uint8(b2-'0')
+			n = uint8(b1-'0')*10 + uint8(b2-'0')
 		}
 		if winningNs[n] {
 			if score == 0 {
@@ -83,7 +78,7 @@ func doCard(line []byte) int {
 				score <<= 1
 			}
 		}
-		buf.ReadByte()
+		pos += 2
 	}
 	return score
 }
@@ -106,57 +101,52 @@ func doPartOne(input []byte) int {
 
 func doCardTwo(line []byte) int {
 	fastReset()
-	buf := bufio.NewReader(bytes.NewBuffer(line))
 
+	var pos int
 	// read til :
-	buf.ReadBytes(':')
-	// skip space
-	buf.ReadByte()
+	for i := 0; i < len(line); i++ {
+		if line[i] == ':' {
+			pos = i + 2
+			break
+		}
+	}
 
 	// Read winning numbers
 	for j := 0; j < 10; j++ {
-		b, err := buf.ReadByte()
-		if err != nil || b == '|' {
+		b1 := line[pos+j]
+		if b1 == '|' {
 			break
 		}
-		b2, err := buf.ReadByte()
-		if err != nil {
-			break
-		}
-		if b == ' ' {
+		b2 := line[pos+j+1]
+		if b1 == ' ' {
 			winningNs[uint8(b2-'0')] = true
 		} else {
-			winningNs[uint8(b-'0')*10+uint8(b2-'0')] = true
+			winningNs[uint8(b1-'0')*10+uint8(b2-'0')] = true
 		}
-		buf.ReadByte()
+		pos += 2
 	}
 
-	// skip space
-	buf.ReadByte()
-	buf.ReadByte()
+	pos += 2
 
 	var score = 0
 
 	// Read my numbers
-	for j := 0; j < 25; j++ {
-		b, err := buf.ReadByte()
-		if err != nil || b == '|' {
+	for j := 10; j < 35; j++ {
+		if pos+j > len(line)-1 {
 			break
 		}
-		b2, err := buf.ReadByte()
-		if err != nil {
-			break
-		}
+		b1 := line[pos+j]
+		b2 := line[pos+j+1]
 		n := uint8(0)
-		if b == ' ' {
+		if b1 == ' ' {
 			n = uint8(b2 - '0')
 		} else {
-			n = uint8(b-'0')*10 + uint8(b2-'0')
+			n = uint8(b1-'0')*10 + uint8(b2-'0')
 		}
 		if winningNs[n] {
 			score++
 		}
-		buf.ReadByte()
+		pos += 2
 	}
 	return score
 }
