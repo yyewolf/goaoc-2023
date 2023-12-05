@@ -1,3 +1,3 @@
-module day04
+module day05
 
 go 1.20

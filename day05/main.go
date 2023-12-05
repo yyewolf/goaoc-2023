@@ -1,5 +1,11 @@
 package main
 
+import "runtime"
+
+func init() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
+}
+
 func main() {
 	answer := doPartOne(input)
 	println(answer)
