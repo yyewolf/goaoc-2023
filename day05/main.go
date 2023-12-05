@@ -142,6 +142,10 @@ func doPartTwo(input []byte) int {
 				d := eToE[1] + eToE[2]
 				e := eToE[0]
 
+				if a < c && b < c || a > d && b > d {
+					continue
+				}
+
 				if a > c && a < d && b > c && b < d {
 					during := [2]int{e + (a - c), e + ((a - c) + (b - a))}
 					if checkRangeValid(during) {
@@ -224,7 +228,6 @@ func doPartTwo(input []byte) int {
 		// Move all entities to preEntities
 		preRanges = append(preRanges, ranges...)
 		ranges = nil
-
 	}
 
 	lowest := 1<<63 - 1
