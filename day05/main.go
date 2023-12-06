@@ -1,10 +1,10 @@
 package main
 
-import "runtime"
+import "fmt"
 
-func init() {
-	runtime.GOMAXPROCS(runtime.NumCPU())
-}
+// func init() {
+// 	runtime.GOMAXPROCS(runtime.NumCPU())
+// }
 
 func main() {
 	answer := doPartOne(input)
@@ -235,6 +235,8 @@ func doPartTwo(input []byte) int {
 		preRanges = append(preRanges, ranges...)
 		ranges = nil
 	}
+
+	fmt.Println(len(preRanges))
 
 	lowest := 1<<63 - 1
 	for _, e := range preRanges {
