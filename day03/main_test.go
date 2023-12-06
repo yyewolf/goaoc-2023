@@ -12,7 +12,7 @@ func BenchmarkPartOne(b *testing.B) {
 	result = r
 }
 
-func BenchmarkPartTwoParsing(b *testing.B) {
+func BenchmarkPartTwo(b *testing.B) {
 	var r int
 	for n := 0; n < b.N; n++ {
 		r = doPartTwo(input)
