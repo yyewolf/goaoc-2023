@@ -73,22 +73,10 @@ func doPartOne(input []byte) int {
 			}
 		}
 
-		// find upper bound that beats record
-		var upperBounds = [2]int{0, time}
-		for {
-			holdFor := (upperBounds[0] + upperBounds[1]) / 2
-			distance := holdFor * (time - holdFor)
-			if distance >= record {
-				upperBounds[0] = holdFor
-			} else {
-				upperBounds[1] = holdFor
-			}
-			if upperBounds[1]-upperBounds[0] <= 1 {
-				break
-			}
-		}
+		lb := lowerBounds[1]
+		times := time - 2*lb + 1
 
-		sum *= upperBounds[1] - lowerBounds[1]
+		sum *= times
 	}
 
 	return sum
@@ -142,22 +130,8 @@ func doPartTwo(input []byte) int {
 		}
 	}
 
-	// find upper bound that beats record
-	var upperBounds = [2]int{0, time}
-	for {
-		holdFor := (upperBounds[0] + upperBounds[1]) / 2
-		distance := holdFor * (time - holdFor)
-		if distance >= record {
-			upperBounds[0] = holdFor
-		} else {
-			upperBounds[1] = holdFor
-		}
-		if upperBounds[1]-upperBounds[0] <= 1 {
-			break
-		}
-	}
-
-	times := upperBounds[1] - lowerBounds[1]
+	lb := lowerBounds[1]
+	times := time - 2*lb + 1
 
 	return times
 }
