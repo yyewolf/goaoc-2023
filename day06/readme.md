@@ -1,0 +1,1 @@
+The mathematics formulas were made by @nicolixxx on Discord

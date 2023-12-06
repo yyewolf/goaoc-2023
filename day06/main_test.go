@@ -19,3 +19,19 @@ func BenchmarkPartTwo(b *testing.B) {
 	}
 	result = r
 }
+
+func BenchmarkPartOneMath(b *testing.B) {
+	var r int
+	for n := 0; n < b.N; n++ {
+		r = doPartOneMath(input)
+	}
+	result = r
+}
+
+func BenchmarkPartTwoMath(b *testing.B) {
+	var r int
+	for n := 0; n < b.N; n++ {
+		r = doPartTwoMath(input)
+	}
+	result = r
+}
