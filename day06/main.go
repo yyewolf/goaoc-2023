@@ -3,6 +3,7 @@ package main
 import (
 	"math"
 	"runtime"
+	"unsafe"
 )
 
 func init() {
@@ -14,6 +15,12 @@ func main() {
 	println(answer)
 
 	answer = doPartTwo(input)
+	println(answer)
+
+	answer = doPartOneMath(input)
+	println(answer)
+
+	answer = doPartTwoMath(input)
 	println(answer)
 }
 
@@ -59,7 +66,7 @@ func doPartOne(input []byte) int {
 		time := race[0]
 		record := race[1]
 
-		var lowerBounds = [2]int{0, time}
+		var lowerBounds = [2]int{0, time / 2}
 		for {
 			holdFor := (lowerBounds[0] + lowerBounds[1]) / 2
 			distance := holdFor * (time - holdFor)
@@ -116,7 +123,7 @@ func doPartTwo(input []byte) int {
 	record := race[1]
 
 	// find lowest bound that beats record
-	var lowerBounds = [2]int{0, time}
+	var lowerBounds = [2]int{0, time / 2}
 	for {
 		holdFor := (lowerBounds[0] + lowerBounds[1]) / 2
 		distance := holdFor * (time - holdFor)
@@ -134,6 +141,20 @@ func doPartTwo(input []byte) int {
 	times := time - 2*lb + 1
 
 	return times
+}
+
+func fastSqrt(x float64) float64 {
+	const threehalfs = 1.5
+
+	var y = x
+	var float64Bits = *(*uint64)(unsafe.Pointer(&y))
+	float64Bits = 0x5fe6ec85e7de30da - (float64Bits >> 1)
+	y = *(*float64)(unsafe.Pointer(&float64Bits))
+	y *= (threehalfs - ((x * 0.5) * y * y))
+	y *= (threehalfs - ((x * 0.5) * y * y))
+	y *= (threehalfs - ((x * 0.5) * y * y))
+
+	return 1 / y
 }
 
 func doPartOneMath(input []byte) int {
@@ -182,10 +203,11 @@ func doPartOneMath(input []byte) int {
 		c := -record
 		a := -1
 
-		det := b*b - 4*a*c
+		det := float64(b*b - 4*a*c)
+		sqrt := fastSqrt(det)
 
-		x1 := float64(-float64(b)+math.Sqrt(float64(det))) / float64(2*a)
-		x2 := float64(-float64(b)-math.Sqrt(float64(det))) / float64(2*a)
+		x1 := (-float64(b) + sqrt) / float64(2*a)
+		x2 := (-float64(b) - sqrt) / float64(2*a)
 
 		score := int(math.Floor(x2) - math.Ceil(x1) + 1)
 
@@ -232,10 +254,11 @@ func doPartTwoMath(input []byte) int {
 	c := -record
 	a := -1
 
-	det := b*b - 4*a*c
+	det := float64(b*b - 4*a*c)
+	sqrt := fastSqrt(det)
 
-	x1 := float64(-float64(b)+math.Sqrt(float64(det))) / float64(2*a)
-	x2 := float64(-float64(b)-math.Sqrt(float64(det))) / float64(2*a)
+	x1 := (-float64(b) + sqrt) / float64(2*a)
+	x2 := (-float64(b) - sqrt) / float64(2*a)
 
 	return int(math.Floor(x2) - math.Ceil(x1) + 1)
 }
