@@ -27,8 +27,8 @@ All benchmarks are run with the same command: `go test -bench=. -benchtime=10s -
 | [Day 06 - P1 (Formula)](./day06/)| `155.0 ns/op 112 B/op 3 allocs/op`       |
 | [Day 06 - P2 (Formula)](./day06/)|  `62.56 ns/op 0 B/op 0 allocs/op`        |
 |||
-| [Day 07 - P1](./day07/)          |                                          |
-| [Day 07 - P2](./day07/)          |                                          |
+| [Day 07 - P1](./day07/)          |`850364 ns/op 260080 B/op 22359 allocs/op`|
+| [Day 07 - P2](./day07/)          |`981200 ns/op 283376 B/op 23943 allocs/op`|
 |||
 | [Day 08 - P1](./day08/)          |                                          |
 | [Day 08 - P2](./day08/)          |                                          |
