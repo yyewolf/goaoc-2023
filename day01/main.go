@@ -94,16 +94,27 @@ func fastNumbers(b []byte, N *int) {
 	}
 }
 
+var b = make([]byte, 6)
+var e = make([]byte, 6)
+
 func doPartTwo(file []byte) int {
 	buffer := bufio.NewReader(bytes.NewBuffer(file))
 
 	var sum int
 
 	for l, _, err := buffer.ReadLine(); err == nil; l, _, err = buffer.ReadLine() {
-
+		// empty b as fast as possible
+		b = e[:]
 		first := -1
-		b := make([]byte, 6)
+		last := -1
+
 		for i, c := range l {
+			I := int(c - '0')
+			if I >= 0 && I <= 9 {
+				first = I
+				break
+			}
+
 			if i >= 6 {
 				b = l[i-6 : i+1]
 			} else {
@@ -114,15 +125,14 @@ func doPartTwo(file []byte) int {
 			if first != -1 {
 				break
 			}
-
-			I := int(c - '0')
+		}
+		for i := len(l) - 1; i >= 0; i-- {
+			I := int(l[i] - '0')
 			if I >= 0 && I <= 9 {
-				first = I
+				last = I
 				break
 			}
-		}
-		last := -1
-		for i := len(l) - 1; i >= 0; i-- {
+
 			if i >= 6 {
 				b = l[i-6 : i+1]
 			} else {
@@ -133,14 +143,11 @@ func doPartTwo(file []byte) int {
 			if last != -1 {
 				break
 			}
-
-			I := int(l[i] - '0')
-			if I >= 0 && I <= 9 {
-				last = I
-				break
-			}
 		}
-		sum += first<<3 + first<<1 + last
+
+		if first != -1 && last != -1 {
+			sum += first<<3 + first<<1 + last
+		}
 	}
 
 	return sum
