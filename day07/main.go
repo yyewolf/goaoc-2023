@@ -10,6 +10,8 @@ func main() {
 
 type Card struct {
 	Cards         []byte
+	CardsNoDupe   []byte
 	CardsNoJokers []byte
 	Bid           int
+	score         int
 }

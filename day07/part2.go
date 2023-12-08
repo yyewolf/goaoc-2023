@@ -6,23 +6,7 @@ import (
 
 func (c *Card) _type2() int {
 	// Remove duplicate letters in cards
-	var temp []byte
-	for _, c := range c.CardsNoJokers {
-		if len(temp) == 0 {
-			temp = append(temp, c)
-			continue
-		}
-		var found = false
-		for _, t := range temp {
-			if t == c {
-				found = true
-				break
-			}
-		}
-		if !found {
-			temp = append(temp, c)
-		}
-	}
+	var temp = c.CardsNoDupe
 
 	// If there's only one letter, it's a five of a kind
 	if len(temp) == 1 {
@@ -79,46 +63,46 @@ func (c *Card) _type2() int {
 	return 7
 }
 
-var order2 = []byte{'J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A'}
+// var order2 = []byte{'J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A'}
 
-func (c *Card) less2(t *Card) bool {
-	cType := c._type2()
-	tType := t._type2()
-	if cType < tType {
-		return false
-	}
-	if cType > tType {
-		return true
-	}
+var remap2 = [100]int{
+	0:  74,
+	1:  50,
+	2:  51,
+	3:  52,
+	4:  53,
+	5:  54,
+	6:  55,
+	7:  56,
+	8:  57,
+	9:  84,
+	10: 81,
+	11: 75,
+	12: 65,
 
-	for i := 0; i < len(c.Cards); i++ {
-		var cVal, tVal int
-		for j, o := range order2 {
-			if c.Cards[i] == o {
-				cVal = j
-			}
-			if t.Cards[i] == o {
-				tVal = j
-			}
-		}
-		if cVal == tVal {
-			continue
-		}
-		return cVal < tVal
-	}
-
-	return false
+	74: 0,
+	50: 1,
+	51: 2,
+	52: 3,
+	53: 4,
+	54: 5,
+	55: 6,
+	56: 7,
+	57: 8,
+	84: 9,
+	81: 10,
+	75: 11,
+	65: 12,
 }
-
-var empty [5]byte
 
 func doPartTwo(input []byte) int {
 	// Parse first
-	var cards []*Card
-	var temp = &Card{}
+	var temp = Card{}
 	var state bool
+	var card int
 	for _, c := range input {
-		if c == '\n' {
+		switch {
+		case c == '\n':
 			// Add CardsNoJokers
 			temp.CardsNoJokers = make([]byte, len(temp.Cards))
 			copy(temp.CardsNoJokers, temp.Cards)
@@ -154,11 +138,11 @@ func doPartTwo(input []byte) int {
 				}
 				// Pick best card to replace Joker with
 				var best byte
-				for i := len(order2) - 1; i >= 0; i-- {
-					o := order2[i]
-					_, ok := occurences[o]
+				for i := 12; i >= 0; i-- {
+					o := remap2[i]
+					_, ok := occurences[byte(o)]
 					if ok {
-						best = o
+						best = byte(o)
 						break
 					}
 				}
@@ -167,27 +151,46 @@ func doPartTwo(input []byte) int {
 						temp.CardsNoJokers[i] = best
 					}
 				}
+
+				if len(temp.CardsNoDupe) == 0 {
+					temp.CardsNoDupe = append(temp.CardsNoDupe, best)
+				}
 			}
 
-			cards = append(cards, temp)
-			temp = &Card{}
+			temp.score += (8 - temp._type2()) << 20
+			cards[card] = temp
+
 			state = false
-			continue
-		}
-		if c == ' ' {
+			temp.Bid = 0
+			temp.Cards = []byte{}
+			temp.CardsNoDupe = []byte{}
+			temp.CardsNoJokers = []byte{}
+			temp.score = 0
+			card++
+		case c == ' ':
 			state = true
-			continue
-		}
-		if state && c >= '0' && c <= '9' {
+		case state && c >= '0' && c <= '9':
 			temp.Bid = temp.Bid*10 + int(c-'0')
-		} else {
+		default:
+			// // Only append if not in Cards
+			seen := false
+			for _, c2 := range temp.Cards {
+				if c2 == c {
+					seen = true
+					break
+				}
+			}
+			if !seen && c != 'J' {
+				temp.CardsNoDupe = append(temp.CardsNoDupe, c)
+			}
 			temp.Cards = append(temp.Cards, c)
+			temp.score = temp.score<<4 + remap2[int(c)]
 		}
 	}
 
 	// Sort cards
 	sort.Slice(cards, func(i, j int) bool {
-		return cards[i].less2(cards[j])
+		return cards[i].less(&cards[j])
 	})
 
 	sum := 0
