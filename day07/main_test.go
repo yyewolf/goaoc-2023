@@ -23,6 +23,10 @@ func BenchmarkPartOne(b *testing.B) {
 func BenchmarkPartTwo(b *testing.B) {
 	var r int
 	for n := 0; n < b.N; n++ {
+		b.StopTimer()
+		copy(cards2, emptyCards[:])
+		b.StartTimer()
+
 		r = doPartTwo(input)
 	}
 	result = r

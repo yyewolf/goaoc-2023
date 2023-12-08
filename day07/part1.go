@@ -4,20 +4,20 @@ import (
 	"sort"
 )
 
-func (card *Card) _type() int {
+func _type(nodupe, cards []byte) int {
 	// If there's only one letter, it's a five of a kind
-	if len(card.CardsNoDupe) == 1 {
+	if len(nodupe) == 1 {
 		return 1
 	}
 	// If there's only two letters, it's either a four of a kind or a full house
-	if len(card.CardsNoDupe) == 2 {
+	if len(nodupe) == 2 {
 		// If the first letter is repeated four times, it's a four of a kind
 		countF := 0
 		countS := 0
-		for _, c := range card.Cards {
-			if c == card.CardsNoDupe[0] {
+		for _, c := range cards {
+			if c == nodupe[0] {
 				countF++
-			} else if c == card.CardsNoDupe[1] {
+			} else if c == nodupe[1] {
 				countS++
 			}
 		}
@@ -29,17 +29,17 @@ func (card *Card) _type() int {
 	}
 
 	// If there's only three letters, it's either a three of a kind or a two pair
-	if len(card.CardsNoDupe) == 3 {
+	if len(nodupe) == 3 {
 		// If the first letter is repeated three times, it's a three of a kind
 		countF := 0
 		countS := 0
 		countT := 0
-		for _, c := range card.Cards {
-			if c == card.CardsNoDupe[0] {
+		for _, c := range cards {
+			if c == nodupe[0] {
 				countF++
-			} else if c == card.CardsNoDupe[1] {
+			} else if c == nodupe[1] {
 				countS++
-			} else if c == card.CardsNoDupe[2] {
+			} else if c == nodupe[2] {
 				countT++
 			}
 		}
@@ -53,15 +53,11 @@ func (card *Card) _type() int {
 		return 5
 	}
 
-	if len(card.CardsNoDupe) == 4 {
+	if len(nodupe) == 4 {
 		return 6
 	}
 
 	return 7
-}
-
-func (c *Card) less(t *Card) bool {
-	return c.score < t.score
 }
 
 var cards = make([]Card, 1000)
@@ -86,10 +82,16 @@ func doPartOne(input []byte) int {
 	// var cards[card] = Card{}
 	var state bool
 	var card int
+
+	var tempCards []byte
+	var tempCardsNoDupe []byte
 	for _, c := range input {
 		switch {
 		case c == '\n':
-			cards[card].score += (8 - cards[card]._type()) << 20
+			cards[card].score += (8 - _type(tempCardsNoDupe, tempCards)) << 20
+			// Empty lists
+			tempCards = tempCards[:0]
+			tempCardsNoDupe = tempCardsNoDupe[:0]
 			state = false
 			card++
 		case c == ' ':
@@ -99,33 +101,27 @@ func doPartOne(input []byte) int {
 		default:
 			// Only append if not in Cards
 			seen := false
-			for _, c2 := range cards[card].Cards {
+			for _, c2 := range tempCards {
 				if c2 == c {
 					seen = true
 					break
 				}
 			}
 			if !seen {
-				cards[card].CardsNoDupe = append(cards[card].CardsNoDupe, c)
+				tempCardsNoDupe = append(tempCardsNoDupe, c)
 			}
-			cards[card].Cards = append(cards[card].Cards, c)
+			tempCards = append(tempCards, c)
 			cards[card].score = cards[card].score<<4 + remap[int(c)]
 		}
 	}
 
-	sort.Slice(cards, func(i, j int) bool {
-		return cards[i].less(&cards[j])
-	})
+	sort.Sort(CardSlice(cards))
 
 	sum := 0
 
 	for i, c := range cards {
 		sum += c.Bid * (i + 1)
 	}
-
-	// if sum != 248453531 {
-	// 	fmt.Println("Wrong answer:", sum)
-	// }
 
 	return sum
 }
