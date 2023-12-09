@@ -20,10 +20,9 @@ func main() {
 }
 
 var winningNs [100]bool
-var empty [100]bool
 
 func fastReset() {
-	copy(winningNs[:], empty[:])
+	clear(winningNs)
 }
 
 func doCard(line []byte) int {

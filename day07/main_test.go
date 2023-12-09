@@ -6,13 +6,11 @@ import (
 
 var result int
 
-var emptyCards = [1000]Card{}
-
 func BenchmarkPartOne(b *testing.B) {
 	var r int
 	for n := 0; n < b.N; n++ {
 		b.StopTimer()
-		copy(cards, emptyCards[:])
+		clear(cards)
 		b.StartTimer()
 
 		r = doPartOne(input)
@@ -24,7 +22,7 @@ func BenchmarkPartTwo(b *testing.B) {
 	var r int
 	for n := 0; n < b.N; n++ {
 		b.StopTimer()
-		copy(cards2, emptyCards[:])
+		clear(cards)
 		b.StartTimer()
 
 		r = doPartTwo(input)

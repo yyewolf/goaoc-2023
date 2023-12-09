@@ -157,7 +157,6 @@ func doPartOne(input []byte) int {
 }
 
 var connections = make([]int, 10)
-var emptyConnections = make([]int, 10)
 var gears = make(map[int][]int)
 
 func doPartTwo(input []byte) int {
@@ -175,7 +174,7 @@ func doPartTwo(input []byte) int {
 		}
 
 		// empty connections fast
-		copy(connections, emptyConnections)
+		clear(connections)
 		temp := 0
 		for x, c := range line {
 			// If c is a number, check right for other number so that we can continue to read the number
