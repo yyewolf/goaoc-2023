@@ -20,18 +20,23 @@ var network [0x1000000]int
 
 func doPartOne(input []byte) int {
 	// First line is the key, L = 0, R = 1
-	var key = make([]int, 0, 300)
 	var pos int
+	var lKey int
+
+	for i := range input {
+		if input[i] == '\n' {
+			lKey = i
+			break
+		}
+	}
+
+	var key = make([]int, lKey)
 
 	for i := range input {
 		if input[i] == '\n' {
 			break
 		}
-		if input[i] == 'L' {
-			key = append(key, 0)
-		} else {
-			key = append(key, 1)
-		}
+		key[pos] = int(input[i]>>4) & 1
 		pos++
 	}
 
@@ -90,18 +95,23 @@ func lcm(numbers ...int) int {
 
 func doPartTwo(input []byte) int {
 	// First line is the key, L = 0, R = 1
-	var key = make([]int, 0, 300)
 	var pos int
+	var lKey int
+
+	for i := range input {
+		if input[i] == '\n' {
+			lKey = i
+			break
+		}
+	}
+
+	var key = make([]int, lKey)
 
 	for i := range input {
 		if input[i] == '\n' {
 			break
 		}
-		if input[i] == 'L' {
-			key = append(key, 0)
-		} else {
-			key = append(key, 1)
-		}
+		key[pos] = int(input[i]>>4) & 1
 		pos++
 	}
 
