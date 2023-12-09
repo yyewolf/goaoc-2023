@@ -1,3 +1,3 @@
-module day07
+module day08
 
 go 1.21

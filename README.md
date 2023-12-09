@@ -7,7 +7,7 @@ All benchmarks are run with the same command: `go test -bench=. -benchtime=10s -
 | Benchmark                       | Results                                  |
 |---------------------------------|------------------------------------------|
 | [Day 01 - P1](./day01/)          | `14046 ns/op 4144 B/op 2 allocs/op`      |
-| [Day 01 - P2](./day01/)          | `66252 ns/op 14064 B/op 622 allocs/op` |
+| [Day 01 - P2](./day01/)          | `49475 ns/op 4144 B/op 2 allocs/op` |
 |||
 | [Day 02 - P1](./day02/)          | `12011 ns/op 4144 B/op 2 allocs/op`      |
 | [Day 02 - P2](./day02/)          | `18509 ns/op 4144 B/op 2 allocs/op`      |
@@ -33,8 +33,8 @@ All benchmarks are run with the same command: `go test -bench=. -benchtime=10s -
 | [Day 08 - P1](./day08/)          |`73868 ns/op 8184 B/op 10 allocs/op`|
 | [Day 08 - P2](./day08/)          |`222287 ns/op 8424 B/op 18 allocs/op`|
 |||
-| [Day 09 - P1](./day09/)          |                                          |
-| [Day 09 - P2](./day09/)          |                                          |
+| [Day 09 - P1](./day09/)          |`39380 ns/op 4144 B/op 2 allocs/op`|
+| [Day 09 - P2](./day09/)          |`43172 ns/op 4144 B/op 2 allocs/op`|
 |||
 | [Day 10 - P1](./day10/)          |                                          |
 | [Day 10 - P2](./day10/)          |                                          |
