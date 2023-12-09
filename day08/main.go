@@ -20,17 +20,17 @@ var network [0x1000000]int
 
 func doPartOne(input []byte) int {
 	// First line is the key, L = 0, R = 1
-	var key []int
+	var key = make([]int, 0, 300)
 	var pos int
 
 	for i := range input {
-		if input[i] == 'L' {
-			key = append(key, 0)
-		} else if input[i] == 'R' {
-			key = append(key, 1)
-		}
 		if input[i] == '\n' {
 			break
+		}
+		if input[i] == 'L' {
+			key = append(key, 0)
+		} else {
+			key = append(key, 1)
 		}
 		pos++
 	}
@@ -55,7 +55,12 @@ func doPartOne(input []byte) int {
 	at := int('A')<<16 + int('A')<<8 + int('A')
 	end := int('Z')<<16 + int('Z')<<8 + int('Z')
 	for at != end {
-		at = (network[at] >> (key[steps%len(key)] * 24)) & 0xFFFFFF
+		switch key[steps%len(key)] {
+		case 0:
+			at = network[at] & 0xFFFFFF
+		case 1:
+			at = (network[at] & 0xFFFFFF000000) >> 24
+		}
 		steps++
 	}
 
@@ -85,17 +90,17 @@ func lcm(numbers ...int) int {
 
 func doPartTwo(input []byte) int {
 	// First line is the key, L = 0, R = 1
-	var key []int
+	var key = make([]int, 0, 300)
 	var pos int
 
 	for i := range input {
-		if input[i] == 'L' {
-			key = append(key, 0)
-		} else if input[i] == 'R' {
-			key = append(key, 1)
-		}
 		if input[i] == '\n' {
 			break
+		}
+		if input[i] == 'L' {
+			key = append(key, 0)
+		} else {
+			key = append(key, 1)
 		}
 		pos++
 	}
@@ -103,7 +108,7 @@ func doPartTwo(input []byte) int {
 	// Second line is empty
 	pos += 2
 
-	var at []int
+	var at = make([]int, 0, 10)
 
 	for ; pos < len(input); pos++ {
 		ai := int(input[pos])<<16 + int(input[pos+1])<<8 + int(input[pos+2])
@@ -124,11 +129,17 @@ func doPartTwo(input []byte) int {
 	var cycles []int
 	var lenAt = len(at)
 	var total int
+	var k int
 	for {
-		k := key[steps%len(key)]
+		k = key[steps%len(key)]
 		for i := 0; i < len(at); i++ {
 			total++
-			at[i] = (network[at[i]] >> (k * 24)) & 0xFFFFFF
+			switch k {
+			case 0:
+				at[i] = network[at[i]] & 0xFFFFFF
+			case 1:
+				at[i] = (network[at[i]] & 0xFFFFFF000000) >> 24
+			}
 			// Check if it ends with Z
 			if at[i]%256 == 0x5A {
 				cycles = append(cycles, steps+1)

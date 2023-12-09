@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 // func init() {
 // 	runtime.GOMAXPROCS(runtime.NumCPU())
 // }
@@ -10,7 +8,7 @@ func main() {
 	answer := doPartOne(input)
 	println(answer)
 
-	answer = doPartTwo(input)
+	answer = doPartTwo(inputTest)
 	println(answer)
 }
 
@@ -232,11 +230,10 @@ func doPartTwo(input []byte) int {
 		}
 
 		// Move all entities to preEntities
+
 		preRanges = append(preRanges, ranges...)
 		ranges = nil
 	}
-
-	fmt.Println(len(preRanges))
 
 	lowest := 1<<63 - 1
 	for _, e := range preRanges {
