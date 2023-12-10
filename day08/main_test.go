@@ -1,8 +1,18 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 var result int
+
+func BenchmarkParsing(b *testing.B) {
+	var r int
+	for n := 0; n < b.N; n++ {
+		r = int(doParsing(input))
+	}
+	result = r
+}
 
 func BenchmarkPartOne(b *testing.B) {
 	var r int
@@ -15,7 +25,7 @@ func BenchmarkPartOne(b *testing.B) {
 func BenchmarkPartTwo(b *testing.B) {
 	var r int
 	for n := 0; n < b.N; n++ {
-		r = doPartTwo(input)
+		r = doPartTwo(input, b)
 	}
 	result = r
 }

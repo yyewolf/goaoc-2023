@@ -30,8 +30,9 @@ All benchmarks are run with the same command: `go test -bench=. -benchtime=10s -
 | [Day 07 - P1](./day07/)          |`83805 ns/op 40 B/op 3 allocs/op`|
 | [Day 07 - P2](./day07/)          |`99430 ns/op 40 B/op 3 allocs/op`|
 |||
-| [Day 08 - P1](./day08/)          |`73868 ns/op 8184 B/op 10 allocs/op`|
-| [Day 08 - P2](./day08/)          |`222287 ns/op 8424 B/op 18 allocs/op`|
+| [Day 08 - Parsing](./day08/)     |`2597 ns/op 0 B/op 0 allocs/op`|
+| [Day 08 - P1](./day08/)          |`33814 ns/op 0 B/op 0 allocs/op`|
+| [Day 08 - P2](./day08/)          |`179994 ns/op 1896 B/op 102 allocs/op`|
 |||
 | [Day 09 - P1](./day09/)          |`39380 ns/op 4144 B/op 2 allocs/op`|
 | [Day 09 - P2](./day09/)          |`43172 ns/op 4144 B/op 2 allocs/op`|
