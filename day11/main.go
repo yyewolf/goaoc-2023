@@ -17,11 +17,6 @@ func main() {
 	println(answer)
 }
 
-var lineWithGalaxy [150]bool
-var columnWithGalaxy [150]bool
-
-var galaxyList = make([][]int, 0, 1000)
-
 func abs(a int) int {
 	if a < 0 {
 		return -a
@@ -29,46 +24,71 @@ func abs(a int) int {
 	return a
 }
 
-func doPartOne(input []byte) int {
-	galaxyList = galaxyList[:0]
+var galaxyList [500]uint64
+var columnWithGalaxy [140]int
+
+func doIt(offset int, input []byte) int {
+	var lineWithGalaxy bool
 	var lineOffset = 0
 	var y int
 	var x int
+	var galaxyCount int
 	for _, c := range input {
 		switch c {
 		case '\n':
-			if !lineWithGalaxy[y] {
+			if !lineWithGalaxy {
 				lineOffset += 1
 			}
 			y++
 			x = -1
+			lineWithGalaxy = false
 		case '#':
-			galaxyList = append(galaxyList, []int{y + lineOffset, x})
-			lineWithGalaxy[y] = true
-			columnWithGalaxy[x] = true
+			// Put line offset in the uppermost 2 bits
+			galaxyList[galaxyCount] = uint64(y+lineOffset*(offset-1))<<32 | uint64(x)
+			lineWithGalaxy = true
+			columnWithGalaxy[x] = 1
+			galaxyCount++
 		}
 		x++
 	}
 
-	for index, g := range galaxyList {
-		// Adjust coordinates to take into accounts column offsets
-		var columnOffset = 0
-		for j := 0; j < g[1]; j++ {
-			if !columnWithGalaxy[j] {
-				columnOffset += 1
-			}
+	var colWithGalaxy [140]int
+
+	cum := 0
+	for i, c := range columnWithGalaxy {
+		if c == 0 {
+			cum++
 		}
-		galaxyList[index][1] += columnOffset
+		colWithGalaxy[i] = cum
 	}
 
+	for i := 0; i < galaxyCount; i++ {
+		g := galaxyList[i]
+		// Adjust coordinates to take into accounts column offsets
+		x := int(g & 0xFFFFFF)
+		columnOffset := colWithGalaxy[x]
+		galaxyList[i] += uint64(columnOffset * (offset - 1))
+	}
+
+	// [(0, 4), (1, 9), (2, 0), (5, 8), (6, 1), (7, 12), (10, 9), (11, 0), (11, 5)]
+
 	sum := 0
-	for i := 0; i < len(galaxyList); i++ {
-		for j := i + 1; j < len(galaxyList); j++ {
+	for i := 0; i < galaxyCount; i++ {
+		x, y := int(galaxyList[i]&0xFFFFFF), int(galaxyList[i]>>32)
+		for j := i + 1; j < galaxyCount; j++ {
+			x1, y1 := int(galaxyList[j]&0xFFFFFF), int(galaxyList[j]>>32)
+
 			// Calculate distance between i and j
-			var distance = abs(galaxyList[i][0]-galaxyList[j][0]) + abs(galaxyList[i][1]-galaxyList[j][1])
+			var distance = abs(x-x1) + abs(y-y1)
 			sum += distance
 		}
 	}
+
+	return sum
+}
+
+func doPartOne(input []byte) int {
+	sum := doIt(2, input)
 
 	// Safety check for when I'm optimizing :
 	if sum != 9543156 {
@@ -79,50 +99,12 @@ func doPartOne(input []byte) int {
 }
 
 func doPartTwo(input []byte) int {
-	galaxyList = galaxyList[:0]
-	var lineOffset = 0
-	var y int
-	var x int
-	for _, c := range input {
-		switch c {
-		case '\n':
-			if !lineWithGalaxy[y] {
-				lineOffset += 100000 - 1
-			}
-			y++
-			x = -1
-		case '#':
-			galaxyList = append(galaxyList, []int{y + lineOffset, x})
-			lineWithGalaxy[y] = true
-			columnWithGalaxy[x] = true
-		}
-		x++
-	}
-
-	for index, g := range galaxyList {
-		// Adjust coordinates to take into accounts column offsets
-		var columnOffset = 0
-		for j := 0; j < g[1]; j++ {
-			if !columnWithGalaxy[j] {
-				columnOffset += 100000 - 1
-			}
-		}
-		galaxyList[index][1] += columnOffset
-	}
-
-	sum := 0
-	for i := 0; i < len(galaxyList); i++ {
-		for j := i + 1; j < len(galaxyList); j++ {
-			// Calculate distance between i and j
-			var distance = abs(galaxyList[i][0]-galaxyList[j][0]) + abs(galaxyList[i][1]-galaxyList[j][1])
-			sum += distance
-		}
-	}
+	sum := doIt(1000000, input)
 
 	// Safety check for when I'm optimizing :
-	// if sum != 625243292686 {
-	// 	fmt.Println("Expected 625243292686, got", sum)
-	// }
+	if sum != 625243292686 {
+		fmt.Println("Expected 625243292686, got", sum)
+	}
 
 	return sum
 }

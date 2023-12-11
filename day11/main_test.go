@@ -2,20 +2,14 @@ package main
 
 import "testing"
 
-var result int
-
 func BenchmarkPartOne(b *testing.B) {
-	var r int
 	for n := 0; n < b.N; n++ {
-		r = doPartOne(input)
+		doPartOne(input)
 	}
-	result = r
 }
 
 func BenchmarkPartTwo(b *testing.B) {
-	var r int
 	for n := 0; n < b.N; n++ {
-		r = doPartTwo(input)
+		doPartTwo(input)
 	}
-	result = r
 }
