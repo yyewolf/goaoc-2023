@@ -7,9 +7,6 @@ on: [push]
 jobs:
     benchmark:
         runs-on: macos-latest
-        strategy:
-            matrix:
-                day : ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]
         steps:
             - uses: actions/checkout@v2
             - name: Setup Go
@@ -19,8 +16,5 @@ jobs:
             - name: Run benchmark
               run: |
                cd ${{ github.workspace }}
-               if [ ! -d "day${{ matrix.day }}" ]; then
-                 exit 0
-               fi  
-               cd day${{ matrix.day }}
+               cd day11
                go test -bench=. -benchmem -benchtime=10s ./...
