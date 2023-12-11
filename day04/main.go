@@ -22,7 +22,7 @@ func main() {
 var winningNs [100]bool
 
 func fastReset() {
-	clear(winningNs)
+	clear(winningNs[:])
 }
 
 func doCard(line []byte) int {
