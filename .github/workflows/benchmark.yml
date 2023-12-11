@@ -6,7 +6,7 @@ on: [push]
 
 jobs:
     benchmark:
-        runs-on: macos-latest
+        runs-on: macos-latest-large
         steps:
             - uses: actions/checkout@v2
             - name: Setup Go
