@@ -1,9 +1,5 @@
 package main
 
-import (
-	"bytes"
-)
-
 func main() {
 	answer := doPartOne(input)
 	println(answer)
@@ -12,24 +8,25 @@ func main() {
 	println(answer)
 }
 
-var grid [][]byte
-var passedThrough = make(map[int]bool)
-var memory = make(map[State]bool)
-
-type State struct {
-	x, y, dir int
+func st(pos, dir int) uint64 {
+	return uint64(pos)<<2 | uint64(dir)
 }
 
-func backtrack(startX, startY, startDir int) {
-	stack := []State{{startX, startY, startDir}}
+var grid = make([]byte, 0, 1000)
+var passedThrough = make(map[int]bool)
+var memory = make(map[uint64]bool)
+
+func dfs(pos, startDir, width int) int {
+	stack := []uint64{st(pos, startDir)}
 
 	for len(stack) > 0 {
 		current := stack[len(stack)-1]
 		stack = stack[:len(stack)-1]
 
-		x, y, dir := current.x, current.y, current.dir
+		dir := int(current & 3)
+		pos := int(current >> 2)
 
-		if x < 0 || y < 0 || x >= len(grid[0]) || y >= len(grid) {
+		if pos < 0 || pos >= len(grid) {
 			continue
 		}
 
@@ -37,123 +34,184 @@ func backtrack(startX, startY, startDir int) {
 			continue
 		}
 		memory[current] = true
+		passedThrough[pos] = true
 
-		passedThrough[y*len(grid[0])+x] = true
+		x := pos % width
 
-		switch grid[y][x] {
+		switch grid[pos] {
 		case '.':
 			switch dir {
 			case 0:
-				stack = append(stack, State{x, y - 1, dir})
+				stack = append(stack, st(pos-width, dir))
 			case 1:
-				stack = append(stack, State{x + 1, y, dir})
+				if x == width-1 {
+					continue
+				}
+				stack = append(stack, st(pos+1, dir))
 			case 2:
-				stack = append(stack, State{x, y + 1, dir})
+				stack = append(stack, st(pos+width, dir))
 			case 3:
-				stack = append(stack, State{x - 1, y, dir})
+				if x == 0 {
+					continue
+				}
+				stack = append(stack, st(pos-1, dir))
 			}
 
 		case '|':
 			if dir == 1 || dir == 3 {
-				stack = append(stack, State{x, y - 1, 0}, State{x, y + 1, 2})
+				stack = append(stack, st(pos-width, 0), st(pos+width, 2))
 			} else {
 				if dir == 0 {
-					stack = append(stack, State{x, y - 1, dir})
+					stack = append(stack, st(pos-width, dir))
 				} else {
-					stack = append(stack, State{x, y + 1, dir})
+					stack = append(stack, st(pos+width, dir))
 				}
 			}
 
 		case '-':
 			if dir == 0 || dir == 2 {
-				stack = append(stack, State{x - 1, y, 3}, State{x + 1, y, 1})
+				if x == width-1 {
+					stack = append(stack, st(pos-1, 3))
+				} else if x == 0 {
+					stack = append(stack, st(pos+1, 1))
+				} else {
+					stack = append(stack, st(pos-1, 3), st(pos+1, 1))
+				}
 			} else {
 				if dir == 1 {
-					stack = append(stack, State{x + 1, y, dir})
+					if x == width-1 {
+						continue
+					}
+					stack = append(stack, st(pos+1, dir))
 				} else {
-					stack = append(stack, State{x - 1, y, dir})
+					if x == 0 {
+						continue
+					}
+					stack = append(stack, st(pos-1, dir))
 				}
 			}
 
 		case '/':
 			switch dir {
 			case 0:
-				stack = append(stack, State{x + 1, y, 1})
+				if x == width-1 {
+					continue
+				}
+				stack = append(stack, st(pos+1, 1))
 			case 1:
-				stack = append(stack, State{x, y - 1, 0})
+				stack = append(stack, st(pos-width, 0))
 			case 2:
-				stack = append(stack, State{x - 1, y, 3})
+				if x == 0 {
+					continue
+				}
+				stack = append(stack, st(pos-1, 3))
 			case 3:
-				stack = append(stack, State{x, y + 1, 2})
+				stack = append(stack, st(pos+width, 2))
 			}
 
 		case '\\':
 			switch dir {
 			case 0:
-				stack = append(stack, State{x - 1, y, 3})
+				if x == 0 {
+					continue
+				}
+				stack = append(stack, st(pos-1, 3))
 			case 1:
-				stack = append(stack, State{x, y + 1, 2})
+				stack = append(stack, st(pos+width, 2))
 			case 2:
-				stack = append(stack, State{x + 1, y, 1})
+				if x == width-1 {
+					continue
+				}
+				stack = append(stack, st(pos+1, 1))
 			case 3:
-				stack = append(stack, State{x, y - 1, 0})
+				stack = append(stack, st(pos-width, 0))
 			}
 		}
 	}
-}
-
-func doPartOne(input []byte) int {
-	grid = bytes.Split(input, []byte("\n"))
-
-	backtrack(0, 0, 1)
 
 	return len(passedThrough)
 }
 
-func doPartTwo(input []byte) int {
+func doPartOne(input []byte) int {
+	var width int
 
-	grid = bytes.Split(input, []byte("\n"))
+	grid = grid[:0]
+	clear(passedThrough)
+	clear(memory)
+
+	for i, c := range input {
+		if c == '\n' {
+			if width == 0 {
+				width = i
+			}
+		} else {
+			grid = append(grid, c)
+		}
+	}
+
+	return dfs(0, 1, width)
+}
+
+func doPartTwo(input []byte) int {
+	var width int
+
+	grid = grid[:0]
+
+	for i, c := range input {
+		if c == '\n' {
+			if width == 0 {
+				width = i
+			}
+		} else {
+			grid = append(grid, c)
+		}
+	}
 
 	var max int
 
 	// Top going down
-	for x := range grid[0] {
+	for x := 0; x < width; x++ {
 		clear(passedThrough)
 		clear(memory)
-		backtrack(x, 0, 2)
+		dfs(x, 2, width)
 		if len(passedThrough) > max {
 			max = len(passedThrough)
 		}
 	}
 
 	// Bottom going up
-	for x := range grid[0] {
+	for x := 0; x < width; x++ {
 		clear(passedThrough)
 		clear(memory)
-		backtrack(x, len(grid)-1, 0)
+		p := len(grid) - width + x
+		dfs(p, 0, width)
 		if len(passedThrough) > max {
 			max = len(passedThrough)
 		}
 	}
 
 	// Left going right
-	for y := range grid {
+	var p int
+	for p < len(grid) {
 		clear(passedThrough)
 		clear(memory)
-		backtrack(0, y, 1)
+		dfs(p, 1, width)
 		if len(passedThrough) > max {
 			max = len(passedThrough)
 		}
+		p += width
 	}
 
 	// Right going left
-	for y := range grid {
+	p = width - 1
+	for p < len(grid) {
 		clear(passedThrough)
 		clear(memory)
-		backtrack(len(grid[0])-1, y, 3)
+		dfs(p, 3, width)
 		if len(passedThrough) > max {
 			max = len(passedThrough)
 		}
+		p += width
 	}
 
 	return max
