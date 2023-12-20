@@ -1,0 +1,46 @@
+name: Reconstruct README
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch
+      - template
+
+jobs:
+  AOC:
+    runs-on: ubuntu-latest
+    environment: AOC
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Check commit message
+      run: |
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        if [[ "$COMMIT_MESSAGE" == *"[skip ci]"* ]]; then
+          echo "Commit message contains [skip ci]. Skipping the workflow."
+          exit 78 # Exit with a neutral status code to skip the workflow
+        else
+          echo "Proceeding with the workflow."
+        fi
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.21.5  # Specify the Go version you need
+
+    - name: Generate readmes
+      run: |
+        cd $GITHUB_WORKSPACE
+        export AOC_SECRETS_SESSION='${{ secrets.AOC_SECRETS_SESSION }}'
+        export AOC_YEAR='${{ vars.AOC_YEAR }}'
+        export AOC_BENCH_FLAGS='${{ vars.AOC_BENCH_FLAGS }}'
+        go run template/cmd/cli/main.go workflow
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git add .
+        git commit -m "[skip ci] Reconstruct READMEs" || true
+        git push || true
