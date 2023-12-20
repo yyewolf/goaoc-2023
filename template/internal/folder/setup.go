@@ -9,6 +9,11 @@ import (
 func CreateDay(year string, day int) {
 	// Create ./year/day/
 	// Copy what's in ./template/go ./year/day
+	_, err := os.Stat("./" + year + "/day" + fmt.Sprintf("%02d", day))
+	if err == nil {
+		return
+	}
+
 	os.MkdirAll("./"+year+"/day"+fmt.Sprintf("%02d", day), 0755)
 	c := "cp -r ./template/go/* ./" + year + "/day" + fmt.Sprintf("%02d", day)
 	cmd := exec.Command("sh", "-c", c)

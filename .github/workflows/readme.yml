@@ -32,6 +32,9 @@ jobs:
     - name: Generate readmes
       run: |
         cd $GITHUB_WORKSPACE
+        export AOC_SECRETS_SESSION=$(echo ${{ secrets.AOC_SESSION }})
+        export AOC_YEAR=$(echo ${{ env.AOC_YEAR }})
+        export AOC_BENCH_FLAGS=$(echo ${{ env.AOC_BENCH_FLAGS }})
         go run template/cmd/cli/main.go workflow
 
     - name: Commit and push changes
@@ -39,5 +42,5 @@ jobs:
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
         git add .
-        git commit -m "[skip ci] Reconstruct READMEs"
-        git push
+        git commit -m "[skip ci] Reconstruct READMEs" 2&>1 > /dev/null
+        git push 2&>1 > /dev/null
