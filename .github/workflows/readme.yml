@@ -32,9 +32,9 @@ jobs:
     - name: Generate readmes
       run: |
         cd $GITHUB_WORKSPACE
-        export AOC_SECRETS_SESSION=${{ secrets.AOC_SESSION }}
-        export AOC_YEAR=${{ env.AOC_YEAR }}
-        export AOC_BENCH_FLAGS=${{ env.AOC_BENCH_FLAGS }}
+        export AOC_SECRETS_SESSION=${{ secrets.AOC_SECRETS_SESSION }}
+        export AOC_YEAR=${{ vars.AOC_YEAR }}
+        export AOC_BENCH_FLAGS=${{ vars.AOC_BENCH_FLAGS }}
         go run template/cmd/cli/main.go workflow
 
     - name: Commit and push changes
