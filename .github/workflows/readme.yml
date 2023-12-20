@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
     - name: Check commit message
       run: |
         COMMIT_MESSAGE=$(git log -1 --pretty=%B)
@@ -19,9 +22,6 @@ jobs:
         else
           echo "Proceeding with the workflow."
         fi
-
-    - name: Checkout Repository
-      uses: actions/checkout@v2
 
     - name: Set up Go
       uses: actions/setup-go@v2
