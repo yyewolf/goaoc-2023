@@ -4,14 +4,22 @@ on:
   push:
     branches:
       - main  # Change this to your default branch
-    paths-ignore: # ignore what begins with [skip ci]
-      - '[skip ci]*'
 
 jobs:
   run_go:
     runs-on: ubuntu-latest
     
     steps:
+    - name: Check commit message
+      run: |
+        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+        if [[ "$COMMIT_MESSAGE" == *"[skip ci]"* ]]; then
+          echo "Commit message contains [skip ci]. Skipping the workflow."
+          exit 78 # Exit with a neutral status code to skip the workflow
+        else
+          echo "Proceeding with the workflow."
+        fi
+
     - name: Checkout Repository
       uses: actions/checkout@v2
 
