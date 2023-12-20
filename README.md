@@ -1,5 +1,5 @@
 ![](https://img.shields.io/github/last-commit/yyewolf/goaoc-2023?style=flat-square)
-![](https://img.shields.io/badge/day%20📅-%!s(int=1)-blue)
+![](https://img.shields.io/badge/day%20📅-%!s(int=20)-blue)
 ![](https://img.shields.io/badge/stars%20⭐-40-yellow)
 ![](https://img.shields.io/badge/days%20completed-20-red)
 
@@ -53,4 +53,6 @@ Here you can put a simple description and anything you want really!
 
 ### Other years
 
+| Year | Stars |
+| ---- | ----- |
 | [Advent Of Code 2023](/2023) | 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 🖤 🖤 🖤 🖤 🖤 |

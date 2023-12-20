@@ -17,8 +17,8 @@ func GetYearFolder() string {
 		return ""
 	}
 
-	// Check if the last folder is a year
-	re := regexp.MustCompile(`\d{4}`)
+	// Check if the last folder is only four digits and nothing else
+	re := regexp.MustCompile(`^20[0-9][0-9]$`)
 	if re.MatchString(splt[len(splt)-1]) {
 		return splt[len(splt)-1]
 	}

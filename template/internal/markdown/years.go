@@ -28,6 +28,9 @@ func GenerateYears() string {
 
 	output += "### Other years\n\n"
 
+	output += "| Year | Stars |\n"
+	output += "| ---- | ----- |\n"
+
 	for _, year := range years {
 		output += GenerateCompactStars(year)
 	}

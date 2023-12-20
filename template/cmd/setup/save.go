@@ -2,7 +2,6 @@ package main
 
 import (
 	"aocli/template/internal/config"
-	"aocli/template/internal/folder"
 	"html/template"
 	"os"
 )
@@ -40,5 +39,5 @@ func saveConfig() {
 		panic(err)
 	}
 
-	folder.CreateDay(config.C.Public.CurrentYear, 1)
+	// folder.CreateDay(config.C.Public.CurrentYear, 1)
 }
