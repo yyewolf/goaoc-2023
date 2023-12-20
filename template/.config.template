@@ -1,0 +1,2 @@
+AOC_YEAR={{.CurrentYear}}
+BENCH_FLAGS=-bench=. -benchmem -benchtime=5s

@@ -1,0 +1,34 @@
+name: Reconstruct README
+
+on:
+  push:
+    branches:
+      - main  # Change this to your default branch
+    paths-ignore:
+      - '**[skip ci]**'
+
+jobs:
+  run_go:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.21.5  # Specify the Go version you need
+
+    - name: Generate readmes
+      run: |
+        cd $GITHUB_WORKSPACE
+        go run template/cmd/cli/main.go workflow
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git add .
+        git commit -m "[skip ci] Reconstruct READMEs"
+        git push
