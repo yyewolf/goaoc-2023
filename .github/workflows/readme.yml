@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main  # Change this to your default branch
-    paths-ignore:
-      - '**[skip ci]**'
+    paths-ignore: # ignore what begins with [skip ci]
+      - '[skip ci]*'
 
 jobs:
   run_go:
