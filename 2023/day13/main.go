@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"fmt"
 )
 
 func main() {
@@ -82,7 +81,7 @@ func doPartOne(input []byte) int {
 
 		if bytes.Equal(line, []byte{'\n'}) {
 			s := checkGridMirrors(grid)
-			fmt.Println(s)
+			// fmt.Println(s)
 			sum += s
 			grid = grid[:0]
 		} else {
@@ -188,9 +187,9 @@ func doPartTwo(input []byte) int {
 	}
 	sum += checkGridMirrorsSmudge(grid)
 
-	if sum != 37876 {
-		fmt.Println("Wrong answer")
-	}
+	// if sum != 37876 {
+	// 	fmt.Println("Wrong answer")
+	// }
 
 	return sum
 }
