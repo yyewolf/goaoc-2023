@@ -7,9 +7,9 @@ on:
       - template
 
 jobs:
-  run_go:
+  AOC:
     runs-on: ubuntu-latest
-    
+    environment: AOC
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
