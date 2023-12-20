@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main  # Change this to your default branch
+      - template
 
 jobs:
   run_go:
@@ -12,7 +13,7 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-      
+
     - name: Check commit message
       run: |
         COMMIT_MESSAGE=$(git log -1 --pretty=%B)
