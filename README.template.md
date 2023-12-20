@@ -2,7 +2,7 @@
 
 # Advent Of Code
 
-Here you can put a simple description and anything you want really!
+Welcome to my Advent of Code repository, I've made this repo using my own [template](https://github.com/yyewolf/goaoc) ! 
 
 ## Year : {{.Year}}
 
