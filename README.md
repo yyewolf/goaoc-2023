@@ -1,7 +1,7 @@
 ![](https://img.shields.io/github/last-commit/yyewolf/goaoc-2023?style=flat-square)
-![](https://img.shields.io/badge/day%20📅-%!s(int=21)-blue)
-![](https://img.shields.io/badge/stars%20⭐-42-yellow)
-![](https://img.shields.io/badge/days%20completed-21-red)
+![](https://img.shields.io/badge/day%20📅-%!s(int=22)-blue)
+![](https://img.shields.io/badge/stars%20⭐-44-yellow)
+![](https://img.shields.io/badge/days%20completed-22-red)
 
 # Advent Of Code
 
@@ -14,7 +14,7 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 | Day | Stars | Day | Stars | Day | Stars | Day | Stars | Day | Stars |
 | --- | :---- | --- | :---- | --- | :---- | --- | :---- | --- | :---- |
 | [Day 1](https://adventofcode.com/2023/day/1) | 🌟🌟 | [Day 6](https://adventofcode.com/2023/day/6) | 🌟🌟 | [Day 11](https://adventofcode.com/2023/day/11) | 🌟🌟 | [Day 16](https://adventofcode.com/2023/day/16) | 🌟🌟 | [Day 21](https://adventofcode.com/2023/day/21) | 🌟🌟 |
-| [Day 2](https://adventofcode.com/2023/day/2) | 🌟🌟 | [Day 7](https://adventofcode.com/2023/day/7) | 🌟🌟 | [Day 12](https://adventofcode.com/2023/day/12) | 🌟🌟 | [Day 17](https://adventofcode.com/2023/day/17) | 🌟🌟 | [Day 22](https://adventofcode.com/2023/day/22) | 🎄 |
+| [Day 2](https://adventofcode.com/2023/day/2) | 🌟🌟 | [Day 7](https://adventofcode.com/2023/day/7) | 🌟🌟 | [Day 12](https://adventofcode.com/2023/day/12) | 🌟🌟 | [Day 17](https://adventofcode.com/2023/day/17) | 🌟🌟 | [Day 22](https://adventofcode.com/2023/day/22) | 🌟🌟 |
 | [Day 3](https://adventofcode.com/2023/day/3) | 🌟🌟 | [Day 8](https://adventofcode.com/2023/day/8) | 🌟🌟 | [Day 13](https://adventofcode.com/2023/day/13) | 🌟🌟 | [Day 18](https://adventofcode.com/2023/day/18) | 🌟🌟 | [Day 23](https://adventofcode.com/2023/day/23) | 🎄 |
 | [Day 4](https://adventofcode.com/2023/day/4) | 🌟🌟 | [Day 9](https://adventofcode.com/2023/day/9) | 🌟🌟 | [Day 14](https://adventofcode.com/2023/day/14) | 🌟🌟 | [Day 19](https://adventofcode.com/2023/day/19) | 🌟🌟 | [Day 24](https://adventofcode.com/2023/day/24) | 🎄 |
 | [Day 5](https://adventofcode.com/2023/day/5) | 🌟🌟 | [Day 10](https://adventofcode.com/2023/day/10) | 🌟🌟 | [Day 15](https://adventofcode.com/2023/day/15) | 🌟🌟 | [Day 20](https://adventofcode.com/2023/day/20) | 🌟🌟 | [Day 25](https://adventofcode.com/2023/day/25) | 🎄 |
@@ -45,7 +45,7 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 | [Day 19](/2023/day19) | `342.70 μs`/`465179 B`/`6157 allocs` | `513.54 μs`/`638866 B`/`8447 allocs`|
 | [Day 20](/2023/day20) | `6.33 ms`/`11331870 B`/`130492 allocs` | `49.11 ms`/`45381065 B`/`522481 allocs`|
 | [Day 21](/2023/day21) | `366.19 μs`/`591872 B`/`70 allocs` | `223.32 ms`/`66213053 B`/`2301031 allocs`|
-| [Day 22](/2023/day22) | | |
+| [Day 22](/2023/day22) | `14.54 ms`/`5940401 B`/`108899 allocs` | `52.55 ms`/`14190261 B`/`130505 allocs`|
 | [Day 23](/2023/day23) | | |
 | [Day 24](/2023/day24) | | |
 | [Day 25](/2023/day25) | | |
@@ -55,4 +55,4 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 
 | Year | Stars |
 | ---- | ----- |
-| [Advent Of Code 2023](/2023) | 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 🖤 🖤 🖤 🖤 |
+| [Advent Of Code 2023](/2023) | 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 🖤 🖤 🖤 |
