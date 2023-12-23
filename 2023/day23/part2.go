@@ -48,13 +48,16 @@ func simplifyGraph(graph map[int][][2]int) {
 	}
 }
 
+var visited [20000]bool
+
 func doPartTwo(input []byte) int {
 	grid := bytes.Split(input, []byte("\n"))
 
 	var endX int = len(grid[0]) - 2
 	var endY int = len(grid) - 1
 	var width int = endX + 1
-	var graph = make(map[int][][2]int, endX*endY)
+	var graph = make(map[int][][2]int, 20000)
+	clear(visited[:])
 
 	// Fill the graph
 	for y := 0; y < endY+1; y++ {
@@ -88,8 +91,6 @@ func doPartTwo(input []byte) int {
 	// fmt.Println("}")
 
 	// Perform DFS to find the longest path
-	visited := make(map[int]bool, endX*endY)
-
 	var dfs func(n [2]int) int
 	dfs = func(n [2]int) int {
 		node := n[0]
@@ -106,6 +107,10 @@ func doPartTwo(input []byte) int {
 		maxPathLen := 0
 
 		for _, neighbor := range graph[node] {
+			if visited[neighbor[0]] {
+				continue
+			}
+
 			path := dfs(neighbor)
 
 			if path == 0 {
