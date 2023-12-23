@@ -5,20 +5,17 @@ import (
 	"sort"
 )
 
-func simplifyGraph(graph map[int][][2]int) map[int][][2]int {
-	simplifiedGraph := make(map[int][][2]int)
+func simplifyGraph(graph map[int][][2]int) {
 	var keys []int
 
-	for node, neighbors := range graph {
-		simplifiedGraph[node] = make([][2]int, len(neighbors))
-		copy(simplifiedGraph[node], neighbors)
+	for node := range graph {
 		keys = append(keys, node)
 	}
 
 	sort.Ints(keys)
 
 	for _, node := range keys {
-		neighbors := simplifiedGraph[node]
+		neighbors := graph[node]
 		if len(neighbors) == 2 {
 			// If the node has only two neighbors, remove the node and connect the neighbors
 			// to each other
@@ -27,30 +24,28 @@ func simplifyGraph(graph map[int][][2]int) map[int][][2]int {
 			dist := neighbors[0][1] + neighbors[1][1]
 
 			// Remove the node from the neighbors
-			for i, neighbor := range simplifiedGraph[neighbor1] {
+			for i, neighbor := range graph[neighbor1] {
 				if neighbor[0] == node {
-					simplifiedGraph[neighbor1] = append(simplifiedGraph[neighbor1][:i], simplifiedGraph[neighbor1][i+1:]...)
+					graph[neighbor1] = append(graph[neighbor1][:i], graph[neighbor1][i+1:]...)
 					break
 				}
 			}
 
-			for i, neighbor := range simplifiedGraph[neighbor2] {
+			for i, neighbor := range graph[neighbor2] {
 				if neighbor[0] == node {
-					simplifiedGraph[neighbor2] = append(simplifiedGraph[neighbor2][:i], simplifiedGraph[neighbor2][i+1:]...)
+					graph[neighbor2] = append(graph[neighbor2][:i], graph[neighbor2][i+1:]...)
 					break
 				}
 			}
 
 			// Remove the node from the graph
-			delete(simplifiedGraph, node)
+			delete(graph, node)
 
 			// Connect the neighbors
-			simplifiedGraph[neighbor1] = append(simplifiedGraph[neighbor1], [2]int{neighbor2, dist})
-			simplifiedGraph[neighbor2] = append(simplifiedGraph[neighbor2], [2]int{neighbor1, dist})
+			graph[neighbor1] = append(graph[neighbor1], [2]int{neighbor2, dist})
+			graph[neighbor2] = append(graph[neighbor2], [2]int{neighbor1, dist})
 		}
 	}
-
-	return simplifiedGraph
 }
 
 func doPartTwo(input []byte) int {
@@ -59,7 +54,7 @@ func doPartTwo(input []byte) int {
 	var endX int = len(grid[0]) - 2
 	var endY int = len(grid) - 1
 	var width int = endX + 1
-	var graph = make(map[int][][2]int)
+	var graph = make(map[int][][2]int, endX*endY)
 
 	// Fill the graph
 	for y := 0; y < endY+1; y++ {
@@ -80,63 +75,61 @@ func doPartTwo(input []byte) int {
 		}
 	}
 
-	graph = simplifyGraph(graph)
+	simplifyGraph(graph)
+
+	// Convert graph to plantuml
+	// fmt.Println("@startuml")
+	// fmt.Println("digraph G {")
+	// for node, neighbors := range graph {
+	// 	for _, neighbor := range neighbors {
+	// 		fmt.Printf("%d -> %d [label=\"%d\"]\n", node, neighbor[0], neighbor[1])
+	// 	}
+	// }
+	// fmt.Println("}")
 
 	// Perform DFS to find the longest path
-	visited := make(map[int]bool)
+	visited := make(map[int]bool, endX*endY)
 
-	var dfs func(n [2]int) [][2]int
-	dfs = func(n [2]int) [][2]int {
+	var dfs func(n [2]int) int
+	dfs = func(n [2]int) int {
 		node := n[0]
 		dist := n[1]
 		if visited[node] {
-			return [][2]int{}
+			return 0
 		}
 
 		if node == endY*width+endX {
-			return [][2]int{{node, dist}}
+			return dist
 		}
 
 		visited[node] = true
 		maxPathLen := 0
-		var maxPath [][2]int
 
 		for _, neighbor := range graph[node] {
 			path := dfs(neighbor)
 
-			if len(path) == 0 || path[0][0] != endY*width+endX {
+			if path == 0 {
 				continue
 			}
 
-			var pathSize int
-			for _, n := range path {
-				pathSize += n[1]
-			}
+			path += dist
 
-			if pathSize > maxPathLen {
-				maxPathLen = pathSize
-				maxPath = path
+			if path > maxPathLen {
+				maxPathLen = path
 			}
 		}
 
-		maxPath = append(maxPath, n)
-
 		visited[node] = false
-		return maxPath
+
+		return maxPathLen
 	}
 
-	p := dfs([2]int{1, 1})
+	r := dfs([2]int{1, 1})
 
-	var pathSize int
-	for _, n := range p {
-		pathSize += n[1]
-	}
-
-	r := pathSize
 	if r != 6379 {
 		println("Wrong answer, expected 6379 but got", r)
 	}
-	return pathSize
+	return r
 }
 
 func getNeighborCoordinates(x, y int, dir string) (int, int) {
