@@ -46,7 +46,7 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 | [Day 20](/2023/day20) | `6.33 ms`/`11331870 B`/`130492 allocs` | `49.11 ms`/`45381065 B`/`522481 allocs`|
 | [Day 21](/2023/day21) | `366.19 μs`/`591872 B`/`70 allocs` | `223.32 ms`/`66213053 B`/`2301031 allocs`|
 | [Day 22](/2023/day22) | `14.54 ms`/`5940401 B`/`108899 allocs` | `52.55 ms`/`14190261 B`/`130505 allocs`|
-| [Day 23](/2023/day23) | `2.04 ms`/`27216 B`/`143 allocs` | `1178.43 ms`/`2387913 B`/`18881 allocs`|
+| [Day 23](/2023/day23) | `2.15 ms`/`27216 B`/`143 allocs` | `415.56 ms`/`2002863 B`/`18879 allocs`|
 | [Day 24](/2023/day24) | | |
 | [Day 25](/2023/day25) | | |
 
