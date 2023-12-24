@@ -11,6 +11,7 @@ require (
 require (
 	github.com/go-git/go-git/v5 v5.11.0
 	github.com/microcosm-cc/bluemonday v1.0.26
+	github.com/mitchellh/go-z3 v0.0.0-20191228203228-4cbedeba863f
 	github.com/spf13/cobra v1.8.0
 	golang.org/x/sys v0.15.0
 	golang.org/x/tools v0.13.0
