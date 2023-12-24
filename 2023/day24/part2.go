@@ -36,21 +36,17 @@ func doPartTwo(input []byte) int {
 	f.WriteString("(declare-const rvz Real)\n")
 
 	// Must resolve this equations at the same time :
-	for i := 0; i < 3; i++ {
-		n := nodes[i]
-
+	for i, n := range nodes {
 		// rx + rvx*t = px + vx*t
 		// ry + rvy*t = py + vy*t
 		// rz + rvz*t = pz + vz*t
 		f.WriteString(fmt.Sprintf("(declare-const t%d Real)\n", i))
-
-		// s.Assert(rx.Add(rvx.Mul(t)).Eq(ctx.Int(n.px, ctx.IntSort()).Add(ctx.Int(n.vx, ctx.IntSort()).Mul(t))))
-		// s.Assert(ry.Add(rvy.Mul(t)).Eq(ctx.Int(n.py, ctx.IntSort()).Add(ctx.Int(n.vy, ctx.IntSort()).Mul(t))))
-		// s.Assert(rz.Add(rvz.Mul(t)).Eq(ctx.Int(n.pz, ctx.IntSort()).Add(ctx.Int(n.vz, ctx.IntSort()).Mul(t))))
-
 		f.WriteString(fmt.Sprintf("(assert (= (+ rx (* rvx t%d)) (+ %d (* %d t%d))))\n", i, n.px, n.vx, i))
 		f.WriteString(fmt.Sprintf("(assert (= (+ ry (* rvy t%d)) (+ %d (* %d t%d))))\n", i, n.py, n.vy, i))
 		f.WriteString(fmt.Sprintf("(assert (= (+ rz (* rvz t%d)) (+ %d (* %d t%d))))\n", i, n.pz, n.vz, i))
+		if i > 1 {
+			break
+		}
 	}
 
 	f.WriteString("(check-sat)\n")
