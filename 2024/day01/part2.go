@@ -1,41 +1,45 @@
 package main
 
 import (
+	"log"
 	"strconv"
 	"strings"
 )
 
+// This time, we want to calculate the similarity between the two lists
+// This is done by counting how many times each number of list 1 appears in list 2 and multiplying this count by the number itself
+// Parsing changes to make use of maps instead of slices
 func doPartTwo(input string) int {
-	var listOne []int
-	var listTwo []int
+	// similarityMap will store the number of times each number appears in list 2, we'll deal about list 1 later
+	var similarityMap = make(map[int]int)
+	var list []int
 
-	// Split input by `   ` and `\n`
-	for _, line := range strings.Split(input, "\n") {
-		if line == "" {
+	// In the input, lists are separated by three spaces
+	// They are also represented vertically, so we can split by newlines
+	for i, line := range strings.Split(input, "\n") {
+		numbers := strings.Split(line, "   ")
+		if len(numbers) != 2 {
 			continue
 		}
 
-		splt := strings.Split(line, "   ")
-
-		i, _ := strconv.Atoi(splt[0])
-		listOne = append(listOne, i)
-
-		i, _ = strconv.Atoi(splt[1])
-		listTwo = append(listTwo, i)
-	}
-
-	var sum int
-
-	// For each number of list 1, we count how many times it appears in list 2
-	for _, num := range listOne {
-		count := 0
-		for _, num2 := range listTwo {
-			if num == num2 {
-				count++
-			}
+		firstNumber, err := strconv.Atoi(numbers[0])
+		if err != nil {
+			log.Fatalf("Error parsing number on line %d (`%s`) : %v", i, line, err)
 		}
 
-		sum += num * count
+		secondNumber, err := strconv.Atoi(numbers[1])
+		if err != nil {
+			log.Fatalf("Error parsing number on line %d (`%s`) : %v", i, line, err)
+		}
+
+		list = append(list, firstNumber)
+		similarityMap[secondNumber]++
+	}
+
+	// For each number of list 1, we count how many times it appears in list 2
+	var sum int
+	for _, num := range list {
+		sum += num * similarityMap[num]
 	}
 
 	return sum

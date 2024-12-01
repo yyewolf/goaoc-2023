@@ -13,8 +13,13 @@ import (
 func ParseGoBenchmark(input string) (*BenchOutputGroup, error) {
 	lines := strings.Split(input, "\n")
 
-	// Remove the first 5 lines
-	lines = lines[4:]
+	// Remove the first lines
+	for i := 0; i < len(lines); i++ {
+		if strings.Contains(lines[i], "\t") {
+			lines = lines[i:]
+			break
+		}
+	}
 
 	// Remove the last 2 lines
 	lines = lines[:len(lines)-3]

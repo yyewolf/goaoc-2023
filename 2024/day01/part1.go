@@ -1,46 +1,55 @@
 package main
 
 import (
+	"log"
 	"slices"
 	"strconv"
 	"strings"
 )
 
-func doPartOne(input string) int {
-	var listOne []int
-	var listTwo []int
+//🎄 Running with real input for day 1 of year 2024 :
+// 2367773
+// 21271939
 
-	// Split input by `   ` and `\n`
-	for _, line := range strings.Split(input, "\n") {
-		if line == "" {
+type List []int
+
+// doPartOne solves the first part of the problem.
+// The problem requires us to pair the smallest number from each list
+func doPartOne(input string) int {
+	var lists [2]List
+
+	// In the input, lists are separated by three spaces
+	// They are also represented vertically, so we can split by newlines
+	for i, line := range strings.Split(input, "\n") {
+		numbers := strings.Split(line, "   ")
+		if len(numbers) != 2 {
 			continue
 		}
 
-		splt := strings.Split(line, "   ")
+		firstNumber, err := strconv.Atoi(numbers[0])
+		if err != nil {
+			log.Fatalf("Error parsing number on line %d (`%s`) : %v", i, line, err)
+		}
 
-		i, _ := strconv.Atoi(splt[0])
-		listOne = append(listOne, i)
+		secondNumber, err := strconv.Atoi(numbers[1])
+		if err != nil {
+			log.Fatalf("Error parsing number on line %d (`%s`) : %v", i, line, err)
+		}
 
-		i, _ = strconv.Atoi(splt[1])
-		listTwo = append(listTwo, i)
+		lists[0] = append(lists[0], firstNumber)
+		lists[1] = append(lists[1], secondNumber)
 	}
 
 	// Sort the lists
-	slices.Sort(listOne)
-	slices.Sort(listTwo)
+	for i := 0; i < len(lists); i++ {
+		slices.Sort(lists[i])
+	}
 
-	// Get the result of sum of matched numbers
+	// Since the lists are sorted, we can now simply sum the differences
 	var sum int
 
-	// Take out the min of the two lists, until both are empty
-	for len(listOne) > 0 && len(listTwo) > 0 {
-		minOne := listOne[0]
-		minTwo := listTwo[0]
-
-		sum += max(minOne, minTwo) - min(minOne, minTwo)
-
-		listOne = listOne[1:]
-		listTwo = listTwo[1:]
+	for i := 0; i < len(lists[0]); i++ {
+		sum += max(lists[0][i], lists[1][i]) - min(lists[0][i], lists[1][i])
 	}
 
 	return sum
