@@ -1,4 +1,4 @@
-![](https://img.shields.io/github/last-commit/yyewolf/goaoc-2023?style=flat-square)
+![](https://img.shields.io/github/last-commit/yyewolf/goaoc-2024?style=flat-square)
 ![](https://img.shields.io/badge/day%20📅-%!s(int=1)-blue)
 ![](https://img.shields.io/badge/stars%20⭐-2-yellow)
 ![](https://img.shields.io/badge/days%20completed-1-red)
@@ -24,7 +24,7 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 
 | Day | Part One | Part Two |
 | --- | :------: | :------: |
-| [Day 1](/2024/day01) | | |
+| [Day 1](/2024/day01) | `230.52 μs` | `245.24 μs`|
 | [Day 2](/2024/day02) | | |
 | [Day 3](/2024/day03) | | |
 | [Day 4](/2024/day04) | | |
