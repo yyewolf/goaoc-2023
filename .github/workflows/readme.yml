@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main  # Change this to your default branch
-      - template
+    paths-ignore:
+      - '**[skip ci]**'
 
 jobs:
   AOC:
@@ -13,16 +14,6 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-
-    - name: Check commit message
-      run: |
-        COMMIT_MESSAGE=$(git log -1 --pretty=%B)
-        if [[ "$COMMIT_MESSAGE" == *"[skip ci]"* ]]; then
-          echo "Commit message contains [skip ci]. Skipping the workflow."
-          exit 78 # Exit with a neutral status code to skip the workflow
-        else
-          echo "Proceeding with the workflow."
-        fi
 
     - name: Set up Go
       uses: actions/setup-go@v2
