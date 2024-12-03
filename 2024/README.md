@@ -26,7 +26,7 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 | --- | :------: | :------: |
 | [Day 1](/2024/day01) | `230.52 μs` | `245.24 μs`|
 | [Day 2](/2024/day02) | `456.59 μs` | `683.37 μs`|
-| [Day 3](/2024/day03) | | |
+| [Day 3](/2024/day03) | `820.74 μs` | `849.29 μs`|
 | [Day 4](/2024/day04) | | |
 | [Day 5](/2024/day05) | | |
 | [Day 6](/2024/day06) | | |
