@@ -1,7 +1,7 @@
 ![](https://img.shields.io/github/last-commit/yyewolf/goaoc-2024?style=flat-square)
-![](https://img.shields.io/badge/day%20📅-%!s(int=4)-blue)
-![](https://img.shields.io/badge/stars%20⭐-8-yellow)
-![](https://img.shields.io/badge/days%20completed-4-red)
+![](https://img.shields.io/badge/day%20📅-%!s(int=5)-blue)
+![](https://img.shields.io/badge/stars%20⭐-10-yellow)
+![](https://img.shields.io/badge/days%20completed-5-red)
 
 # Advent Of Code
 
@@ -17,7 +17,7 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 | [Day 2](https://adventofcode.com/2024/day/2) | 🌟🌟 | [Day 7](https://adventofcode.com/2024/day/7) | 🎄 | [Day 12](https://adventofcode.com/2024/day/12) | 🎄 | [Day 17](https://adventofcode.com/2024/day/17) | 🎄 | [Day 22](https://adventofcode.com/2024/day/22) | 🎄 |
 | [Day 3](https://adventofcode.com/2024/day/3) | 🌟🌟 | [Day 8](https://adventofcode.com/2024/day/8) | 🎄 | [Day 13](https://adventofcode.com/2024/day/13) | 🎄 | [Day 18](https://adventofcode.com/2024/day/18) | 🎄 | [Day 23](https://adventofcode.com/2024/day/23) | 🎄 |
 | [Day 4](https://adventofcode.com/2024/day/4) | 🌟🌟 | [Day 9](https://adventofcode.com/2024/day/9) | 🎄 | [Day 14](https://adventofcode.com/2024/day/14) | 🎄 | [Day 19](https://adventofcode.com/2024/day/19) | 🎄 | [Day 24](https://adventofcode.com/2024/day/24) | 🎄 |
-| [Day 5](https://adventofcode.com/2024/day/5) | 🎄 | [Day 10](https://adventofcode.com/2024/day/10) | 🎄 | [Day 15](https://adventofcode.com/2024/day/15) | 🎄 | [Day 20](https://adventofcode.com/2024/day/20) | 🎄 | [Day 25](https://adventofcode.com/2024/day/25) | 🎄 |
+| [Day 5](https://adventofcode.com/2024/day/5) | 🌟🌟 | [Day 10](https://adventofcode.com/2024/day/10) | 🎄 | [Day 15](https://adventofcode.com/2024/day/15) | 🎄 | [Day 20](https://adventofcode.com/2024/day/20) | 🎄 | [Day 25](https://adventofcode.com/2024/day/25) | 🎄 |
 
 
 ### Benchmarks
@@ -28,7 +28,7 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 | [Day 2](/2024/day02) | `456.59 μs` | `683.37 μs`|
 | [Day 3](/2024/day03) | `820.74 μs` | `849.29 μs`|
 | [Day 4](/2024/day04) | `371.57 μs` | `869.71 μs`|
-| [Day 5](/2024/day05) | | |
+| [Day 5](/2024/day05) | `7.05 ms` | `18.58 ms`|
 | [Day 6](/2024/day06) | | |
 | [Day 7](/2024/day07) | | |
 | [Day 8](/2024/day08) | | |
@@ -56,4 +56,4 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 | Year | Stars |
 | ---- | ----- |
 | [Advent Of Code 2023](/2023) | 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 |
-| [Advent Of Code 2024](/2024) | 💛 💛 💛 💛 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 |
+| [Advent Of Code 2024](/2024) | 💛 💛 💛 💛 💛 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 |
