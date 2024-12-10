@@ -33,7 +33,7 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 | [Day 7](/2024/day07) | `61.76 ms` | `3724.56 ms`|
 | [Day 8](/2024/day08) | `58.27 μs` | `189.04 μs`|
 | [Day 9](/2024/day09) | | |
-| [Day 10](/2024/day10) | | |
+| [Day 10](/2024/day10) | `3.78 ms` | `4.66 ms`|
 | [Day 11](/2024/day11) | | |
 | [Day 12](/2024/day12) | | |
 | [Day 13](/2024/day13) | | |
