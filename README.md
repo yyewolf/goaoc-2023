@@ -1,7 +1,7 @@
 ![](https://img.shields.io/github/last-commit/yyewolf/goaoc-2024?style=flat-square)
-![](https://img.shields.io/badge/day%20📅-%!s(int=15)-blue)
-![](https://img.shields.io/badge/stars%20⭐-30-yellow)
-![](https://img.shields.io/badge/days%20completed-15-red)
+![](https://img.shields.io/badge/day%20📅-%!s(int=16)-blue)
+![](https://img.shields.io/badge/stars%20⭐-32-yellow)
+![](https://img.shields.io/badge/days%20completed-16-red)
 
 # Advent Of Code
 
@@ -13,7 +13,7 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 
 | Day | Stars | Day | Stars | Day | Stars | Day | Stars | Day | Stars |
 | --- | :---- | --- | :---- | --- | :---- | --- | :---- | --- | :---- |
-| [Day 1](https://adventofcode.com/2024/day/1) | 🌟🌟 | [Day 6](https://adventofcode.com/2024/day/6) | 🌟🌟 | [Day 11](https://adventofcode.com/2024/day/11) | 🌟🌟 | [Day 16](https://adventofcode.com/2024/day/16) | 🎄 | [Day 21](https://adventofcode.com/2024/day/21) | 🎄 |
+| [Day 1](https://adventofcode.com/2024/day/1) | 🌟🌟 | [Day 6](https://adventofcode.com/2024/day/6) | 🌟🌟 | [Day 11](https://adventofcode.com/2024/day/11) | 🌟🌟 | [Day 16](https://adventofcode.com/2024/day/16) | 🌟🌟 | [Day 21](https://adventofcode.com/2024/day/21) | 🎄 |
 | [Day 2](https://adventofcode.com/2024/day/2) | 🌟🌟 | [Day 7](https://adventofcode.com/2024/day/7) | 🌟🌟 | [Day 12](https://adventofcode.com/2024/day/12) | 🌟🌟 | [Day 17](https://adventofcode.com/2024/day/17) | 🎄 | [Day 22](https://adventofcode.com/2024/day/22) | 🎄 |
 | [Day 3](https://adventofcode.com/2024/day/3) | 🌟🌟 | [Day 8](https://adventofcode.com/2024/day/8) | 🌟🌟 | [Day 13](https://adventofcode.com/2024/day/13) | 🌟🌟 | [Day 18](https://adventofcode.com/2024/day/18) | 🎄 | [Day 23](https://adventofcode.com/2024/day/23) | 🎄 |
 | [Day 4](https://adventofcode.com/2024/day/4) | 🌟🌟 | [Day 9](https://adventofcode.com/2024/day/9) | 🌟🌟 | [Day 14](https://adventofcode.com/2024/day/14) | 🌟🌟 | [Day 19](https://adventofcode.com/2024/day/19) | 🎄 | [Day 24](https://adventofcode.com/2024/day/24) | 🎄 |
@@ -56,4 +56,4 @@ Welcome to my Advent of Code repository, I've made this repo using my own [templ
 | Year | Stars |
 | ---- | ----- |
 | [Advent Of Code 2023](/2023) | 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 |
-| [Advent Of Code 2024](/2024) | 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 |
+| [Advent Of Code 2024](/2024) | 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 💛 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 🖤 |
