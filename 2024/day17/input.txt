@@ -1,0 +1,32 @@
+Register A: 25358015
+Register B: 0
+Register C: 0
+
+Program: 2,4,1,1,7,5,0,3,4,7,1,6,5,5,3,0
+
+
+BST A  B=A%8
+BXL 1  B^=1
+CDV 5  C=A/32
+ADV 3  A=A/8
+BXC    B^=C
+BXL 6  B^=6
+OUT B  PRINT(B)
+JNZ 0  GOTO 0
+
+Init: A = X
+      B = 0
+      C = 0
+
+0: B=A%8
+1: B^=1
+2: C=A/32
+3: A=A/8
+4: B^=C
+5: B^=6
+6: PRINT(B)
+7: GOTO 0
+
+After : A = X/8
+        B = X%8 XOR 1 XOR X/32 XOR 6
+        C = X/32
